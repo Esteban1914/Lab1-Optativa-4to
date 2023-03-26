@@ -22,28 +22,14 @@ class Suppliers:
             suppliers[supplier_name].addProduct(product)    
         self.__suppliers=suppliers     
            
-    def unsold(self):
+    def show_unsold(self):
         print("Invientario no vendido")
         total_value=0
         total_products=0
-        for supplier_key,supplier_value in self.__suppliers.items():
-            print("\tSuministrador: ",supplier_key)
-            for product in supplier_value.products:
-                try:
-                    in_inventary=product.purchased_amount - product.quantity_sold
-                    if in_inventary < 0:
-                        raise InventaryError("\t\tError, la cantidad vendida({}) es mayor q la comprada({})".format(product.quantity_sold,product.purchased_amount))
-                    if in_inventary:
-                        value=in_inventary * product.unit_cost
-                        total_products+=in_inventary
-                        total_value+=value
-                        print("\t\tProducto:",product.n_product)
-                        print("\t\t\tNo vendidos:{}\n\t\t\tValor:{}".format(
-                            in_inventary,
-                            value 
-                            ))
-                except InventaryError as e:
-                    print(e.args[0])
+        for supplier_value in self.__suppliers.values():
+            t_p, t_v = supplier_value.show_unsold()
+            total_products += t_p
+            total_value += t_v
         print("Total de productos sin vender:{}\nValor Total:{}".format(total_products,total_value))
  
 # Another Class
@@ -58,10 +44,40 @@ class Product:
         self.quantity_sold=quantity_sold
         self.unit_cost=unit_cost
         self.sale_price=sale_price
+        
+    def show_unsold(self):
+        try:
+            in_inventary=self.purchased_amount - self.quantity_sold
+            if in_inventary < 0:
+                raise InventaryError("\t\tError, la cantidad vendida({}) es mayor q la comprada({})".format(self.quantity_sold,self.purchased_amount))
+            if in_inventary:
+                value=in_inventary * self.unit_cost
+                print("\t\tProducto:",self.n_product)
+                print("\t\t\tNo vendidos:{}\n\t\t\tValor:{}".format(
+                    in_inventary,
+                    value 
+                    ))
+                return in_inventary,value
+            else:
+                print("\t\tTodos los productos vendidos")
+        except InventaryError as e:
+            print(e.args[0])
+        return 0,0
 
 class Supplier:
     def __init__(self,name) -> None:
         self.name=name
         self.products=[]
+        
     def addProduct(self,product):
         self.products.append(product)
+        
+    def show_unsold(self):
+        total_value=0
+        total_products=0
+        print("\tSuministrador: ",self.name)
+        for product in self.products:
+            t_p, t_v = product.show_unsold()
+            total_products += t_p
+            total_value += t_v
+        return total_products,total_value
