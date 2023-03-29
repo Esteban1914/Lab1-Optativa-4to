@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 
 class Suppliers:   
-    def __init__(self,xlsx_dir) -> None:
+    def __init__(self,xlsx_dir):
         suppliers={}
         wb=load_workbook(xlsx_dir)        
         ws = wb.active
@@ -65,7 +65,7 @@ class Product:
         return 0,0
 
 class Supplier:
-    def __init__(self,name) -> None:
+    def __init__(self,name):
         self.name=name
         self.products=[]
         
