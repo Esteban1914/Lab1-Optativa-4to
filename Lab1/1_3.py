@@ -1,4 +1,5 @@
 from datetime import datetime
+
 if __name__=='__main__':
     my_list=[
         "N:Amanda,CI:03062224105,A:Industrial",
