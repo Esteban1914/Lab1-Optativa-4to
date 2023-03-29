@@ -1,3 +1,4 @@
+
 if __name__=='__main__':
     while True:
         cadenas=input("8 Cadenas:\n")

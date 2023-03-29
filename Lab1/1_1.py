@@ -1,6 +1,7 @@
 
 def isPalindrome(element):
      return element == element[::-1]
+
 """
 def isPalindrome0(str):
     for i in range(0, int(len(str)/2)):
