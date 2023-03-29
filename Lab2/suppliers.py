@@ -32,7 +32,7 @@ class Suppliers:
             total_value += t_v
         print("Total de productos sin vender:{}\nValor Total:{}".format(total_products,total_value))
  
-# Another Class
+# Another Internal Class
 
 class InventaryError(Exception):
         pass
